@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  dvsa-bot:
+    build: .
+    container_name: dvsa-bot
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "6080:6080"   # noVNC web interface
+    volumes:
+      - ./data:/app/data
+      - /tmp/screenshots:/tmp/screenshots
+    shm_size: '2gb'
+    environment:
+      - NODE_ENV=production
+      - DISPLAY=:99
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
